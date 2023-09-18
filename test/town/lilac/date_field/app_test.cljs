@@ -21,7 +21,9 @@
                      (set-state {:value value :valid? valid?})
                      (on-change value valid?))
         :valid? valid?
-        :value value})))
+        :value value
+        :error (when (not valid?)
+                 "Incorrect date format, use DD-MM-YYYY")})))
 
 
 (deftest date-field

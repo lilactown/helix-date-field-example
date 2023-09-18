@@ -29,10 +29,10 @@
 
 
 (defnc date-field
-  [{:keys [error on-change valid? value]}]
+  [{:keys [error on-change value]}]
   (d/div
    (d/input
-    {:class ["input" (when (or (not valid?) (some? error))
+    {:class ["input" (when (some? error)
                        "is-danger")]
      :type "text"
      :value value
@@ -40,10 +40,6 @@
      :on-change #(let [v (.. % -target -value)
                        valid? (valid-date-format? v)]
                    (on-change v valid?))})
-   (when (not valid?)
-     (d/p
-      {:class "help is-danger"}
-      "Incorrect date format, use DD-MM-YYYY"))
    (when error
      (d/p
       {:class "help is-danger"}
@@ -66,9 +62,12 @@
                                    :value v
                                    :valid? date-valid?}
                                   range-valid?)))
-        :valid? start-valid?
         :value start
-        :error (when (not range-valid?)
+        :error (cond
+                 (not start-valid?)
+                 "Incorrect date format, use DD-MM-YYYY"
+
+                 (and end-valid? (not range-valid?))
                  "Incorrect date range. Start date can't be before end date.")}))
    (d/p
     {:class "px-3"}
@@ -82,9 +81,12 @@
                                    :value v
                                    :valid? date-valid?}
                                   range-valid?)))
-        :valid? end-valid?
         :value end
-        :error (when (not range-valid?)
+        :error (cond
+                 (not end-valid?)
+                 "Incorrect date format, use DD-MM-YYYY"
+
+                 (and start-valid? (not range-valid?))
                  "Incorrect date range. Start date can't be before end date.")}))))
 
 
@@ -115,10 +117,11 @@
      {:class "container my-6"}
      ($ date-field
         {:value date-value
-         :valid? date-valid?
          :on-change (fn [v valid?]
                       (set-date {:date-value v
-                                 :date-valid? valid?}))})
+                                 :date-valid? valid?}))
+         :error (when (not date-valid?)
+                  "Incorrect date format, use DD-MM-YYYY")})
      ($ date-range
         {:start (:value start)
          :start-valid? (:valid? start)
