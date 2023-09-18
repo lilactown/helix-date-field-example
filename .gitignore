@@ -1,0 +1,6 @@
+.clj-kondo/.cache
+/.shadow-cljs/
+/node_modules/
+/out/
+/package-lock.json
+public/js/

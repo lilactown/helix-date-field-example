@@ -1,0 +1,14 @@
+{:source-paths ["src" "test"]
+ :dependencies [[binaryage/devtools "1.0.7"]
+                [lilactown/helix "0.1.10"]]
+ :builds {:app {:target :browser
+                :output-dir "public/js"
+                :asset-path "/js"
+                :modules {:main {:entries [town.lilac.date-field.main]
+                                 :init-fn town.lilac.date-field.main/start!}}
+                :devtools {:http-root    "public"
+                           :http-port    8700}}
+          :test {:target :browser-test
+                 :test-dir "out/test"
+                 :devtools {:http-root "out/test"
+                            :http-port 8021}}}}
