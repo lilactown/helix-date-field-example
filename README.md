@@ -8,8 +8,9 @@ My own response to and solution for the problems described in
 
 This repository shows how to implement the example app described in the article
 using plain React. The implementation aims to encapsulate behavior, styling
-and structure in components in a composable and testable way, while also meeting
-the business requirements of the application.
+and structure in components in a composable and testable way by using
+fundamental principles of React component design, while also meeting the
+business requirements of the application.
 
 The implementation is only 142 lines of code. It is accompanied by several tests
 that ensure that the business logic is correctly implemented and the web page is
