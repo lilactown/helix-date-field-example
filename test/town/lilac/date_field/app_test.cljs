@@ -11,12 +11,26 @@
   {:after rtl/cleanup})
 
 
+(defnc date-field-container
+  [{:keys [on-change]}]
+  (let [[{:keys [valid? value]} set-state] (hooks/use-state
+                                            {:value ""
+                                             :valid? true})]
+    ($ app/date-field
+       {:on-change (fn [value valid?]
+                     (set-state {:value value :valid? valid?})
+                     (on-change value valid?))
+        :valid? valid?
+        :value value})))
+
+
 (deftest date-field
   (let [*last-change (atom {})
-        result (rtl/render ($ app/date-field
+        result (rtl/render ($ date-field-container
                               {:on-change (fn [value valid?]
-                                            (reset! *last-change {:value value
-                                                            :valid? valid?}))}))
+                                            (reset! *last-change
+                                                    {:value value
+                                                     :valid? valid?}))}))
         input-el (.queryByRole result "textbox")]
     (is input-el "Smoke test: found textbox")
 
@@ -37,30 +51,37 @@
         "Blank value is valid")))
 
 
-(defnc container
+(defnc date-range-container
   [{:keys [on-change]}]
   (let [[{:keys [start
-                 start-valid?
                  end
-                 end-valid?]} set-state] (hooks/use-state {:start ""
-                                                           :start-valid? true
-                                                           :end ""
-                                                           :end-valid? true})]
-    ($ app/date-range {:start start
-                       :start-valid? start-valid?
-                       :end end
-                       :end-valid? end-valid?
-                       :on-change (fn [{:keys [field value] :as m} range-valid?]
-                                    (on-change m range-valid?)
-                                    (set-state assoc field value))})))
+                 range-valid?]} set-state] (hooks/use-state
+                                            {:start {:value ""
+                                                     :valid? true}
+                                             :end {:value ""
+                                                   :valid? true}
+                                           :range-valid? true})]
+    ($ app/date-range
+       {:start (:value start)
+        :start-valid? (:valid? start)
+        :end (:value end)
+        :end-valid? (:valid? end)
+        :range-valid? range-valid?
+        :on-change (fn [{:keys [field value valid?] :as m}
+                        range-valid?]
+                     (on-change m range-valid?)
+                     (set-state assoc
+                                field {:value value
+                                       :valid? valid?}
+                                :range-valid? range-valid?))})))
 
 
 (deftest date-range
   (let [*last-change (atom [])
-        result (rtl/render ($ container
-                             {:on-change (fn [m range-valid?]
-                                           (reset! *last-change
-                                                   [m range-valid?]))}))
+        result (rtl/render ($ date-range-container
+                              {:on-change (fn [m range-valid?]
+                                            (reset! *last-change
+                                                    [m range-valid?]))}))
         [start-el end-el] (.queryAllByRole result "textbox")]
     (is start-el "Smoke test: found start textbox")
     (is end-el "Smoke test: found end textbox")

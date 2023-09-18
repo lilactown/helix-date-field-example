@@ -29,27 +29,25 @@
 
 
 (defnc date-field
-  [{:keys [error on-change value]}]
-  (let [[valid? set-valid] (hooks/use-state true)]
-    (d/div
-     (d/input
-      {:class ["input" (when (or (not valid?) (some? error))
-                         "is-danger")]
-       :type "text"
-       :value value
-       :placeholder "DD-MM-YYYY"
-       :on-change #(let [v (.. % -target -value)
-                         valid? (valid-date-format? v)]
-                     (on-change v valid?)
-                     (set-valid valid?))})
-     (when (not valid?)
-       (d/p
-        {:class "help is-danger"}
-        "Incorrect date format, use DD-MM-YYYY"))
-     (when error
-       (d/p
-        {:class "help is-danger"}
-        error)))))
+  [{:keys [error on-change valid? value]}]
+  (d/div
+   (d/input
+    {:class ["input" (when (or (not valid?) (some? error))
+                       "is-danger")]
+     :type "text"
+     :value value
+     :placeholder "DD-MM-YYYY"
+     :on-change #(let [v (.. % -target -value)
+                       valid? (valid-date-format? v)]
+                   (on-change v valid?))})
+   (when (not valid?)
+     (d/p
+      {:class "help is-danger"}
+      "Incorrect date format, use DD-MM-YYYY"))
+   (when error
+     (d/p
+      {:class "help is-danger"}
+      error))))
 
 
 (defnc date-range
