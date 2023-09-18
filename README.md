@@ -104,6 +104,12 @@ framework for handling arbitrary form state.
 
 # Developing
 
+Initial setup:
+
+```shellsession
+$ npm i
+```
+
 To start the development server and build the code,
 
 ```shellsession
