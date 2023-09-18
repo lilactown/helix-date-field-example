@@ -26,7 +26,7 @@ Their should be a submit button that clears the form on click.
 
 If any of the text fields are malformed, then an error message should be shown
 directly below the invalid one explaining that the value isn't formatted
-correctly. The tex field should also have a red border.
+correctly. The text field should also have a red border.
 
 If the two text fields are not in ascending order, then an error should be shown
 beneath both text fields explaining the issue. Both text fields should have a
