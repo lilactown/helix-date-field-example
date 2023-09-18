@@ -88,6 +88,20 @@ way, but focused on execution of the specific feature we are building.
 In a more complex app, this can be very beneficial as it avoids having to
 execute the application end to end to test these things wholistically.
 
+# Thoughts on forms
+
+Forms are particularly tricky to do in React because the often require very
+tricky UX that isn't served well by one-way databinding, and they can also be
+large and nested. They also often require integration with things like network
+I/O, navigation, and state that React is good at.
+
+Because of the particular complexity of handling forms interactions and
+nestedness, a purpose-built tool can be beneficial. At work, I have experience
+with [react-hook-form](https://react-hook-form.com/). There are many other
+libraries in this space, and I expect that new solutions will continue to be
+developed. Adopting one of these libraries often is better than rolling your own
+framework for handling arbitrary form state.
+
 # Developing
 
 To start the development server and build the code,
