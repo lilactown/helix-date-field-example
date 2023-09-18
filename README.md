@@ -11,6 +11,10 @@ using plain React. The implementation aims to encapsulate behavior, styling
 and structure in components in a composable and testable way, while also meeting
 the business requirements of the application.
 
+The implementation is only 142 lines of code. It is accompanied by several tests
+that ensure that the business logic is correctly implemented and the web page is
+updated correctly according to the business requirements.
+
 ## Business requirements
 
 The application consists of a form which accepts 3 values:
@@ -47,14 +51,13 @@ Based on the requirements, a few things fall out:
   sense to control the state of the fields in the parent component of all 3
   fields and the submit button.
 
-The main tension in this problem is how to create encapsulate, reusable
+The main tension in this problem is how to create encapsulated, reusable
 components while also accommodating cross-field validation.
 
 The implementation takes the following approach:
 
-0. `date-field` and `date-range` components implement behavior, style and
-   structure to display the right UI based on props passed to it. They have no
-   local state.
+0. `date-field` and `date-range` components implement the style and structure to
+   display the right UI based on props passed to it. They have no local state.
 1. Validation logic is handled locally within these components.
    1. `date-field` contains the logic for checking the date format and showing
       an error message
