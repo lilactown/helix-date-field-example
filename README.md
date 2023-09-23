@@ -60,13 +60,16 @@ The implementation takes the following approach:
 0. `date-field` and `date-range` components implement the style and structure to
    display the right UI based on props passed to it. They have no local state.
 1. Validation logic is handled locally within these components.
-   1. `date-field` contains the logic for checking the date format and showing
-      an error message
+   1. `date-field` contains the logic for checking the date format
    2. `date-range` contains the logic for checking that the start and end dates
       are in ascending order
    3. Each component reports its `valid?` state via its `on-change` handler so
       that parent components can track it as needed.
-2. The state of the fields is maintained in the top-level `main-panel` component
+2. `date-field` takes an `:error` prop which shows an error message when
+   present. This way, `date-range` can control whether to show the invalid
+   date message or the invalid range message beneath each `date-field` according
+   to its own display logic.
+3. The state of the fields is maintained in the top-level `main-panel` component
    so that the `submit-button` component can clear it on press. These are passed
    via props.
 
